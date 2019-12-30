@@ -6,16 +6,18 @@ app = Flask(__name__)
 
 @app.route("/")
 def show_tables():
-    data = pd.read_csv("https://raw.githubusercontent.com/goldirana/nseindia/master/BM_All_Forthcoming_-_F%26O_Securities.csv")
-    # tabel = data.head()
-    return data.to_html()
+    data = pd.read_csv("https://raw.githubusercontent.com/goldirana/nseindia/master/BM_All_Forthcoming_-_F%26O_Securities.csv",index_col="Symbol")
+    df= pd.read_csv("https://raw.githubusercontent.com/goldirana/nseindia/master/CA_ALL_FORTHCOMING_-_F%26O_SECURITIES.csv", sep=",",index_col="Symbol")
+    result = pd.concat([df, data],)
+    
+    result.fillna("-",inplace=True)
+    return result.to_html()
 
 
-@app.route("/meetings")
-def show_data():
-    data = pd.read_csv("https://raw.githubusercontent.com/goldirana/nseindia/master/CA_ALL_FORTHCOMING_-_F%26O_SECURITIES.csv", sep=",")
-    return data.to_html()
 
 if __name__ =="__main__":
     app.run(debug=True)
 
+
+
+# %%
